@@ -16,7 +16,7 @@ Basically, this web application would allow multiple users to write, edit and co
 language together at the same time. The application would use timeline feature and compile the last edited code in the timeline.
 
 # Project Components
-1. Web Server
+1. Nginx Web Server
 2. 3rd Party compiler/interpreter
-3. Multishare server
+3. AWS Cloud Network
 
