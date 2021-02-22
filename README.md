@@ -19,4 +19,10 @@ language together at the same time. The application would use timeline feature a
 1. Nginx Web Server
 2. 3rd Party compiler/interpreter
 3. AWS Cloud Network
+4. Ubuntu Command Line interface
+
+# Languages
+1. Node.js
+2. React
+3. HTML
 
