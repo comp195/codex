@@ -26,3 +26,5 @@ language together at the same time. The application would use timeline feature a
 2. React
 3. HTML
 
+# System Design Report
+https://docs.google.com/document/d/14a2tJF6lWGQK_kyMDUKPCA62PdoxMt6FokH1jgXUyHU/edit
