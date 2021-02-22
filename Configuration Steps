@@ -1,0 +1,92 @@
+Steps for Configuration of the system
+
+Create a Key Pair
+•	In EC2 Dashboard, under Network and Security choose Key Pair 
+•	Click on Create Key Pair, Name it as you want (project-1-rehan)  
+•	Save it at a secure location in your machine, DO NOT SHARE
+
+Let’s Configure a Security Group for our Instance
+•	In EC2 Dashboard, Under Network and Security choose Security Groups 
+•	Create Security Group
+•	Name: codex-Securitygroup
+•	Description: Allow SSH from my machine
+•	VPC: codex-VPC
+•	Add Inbound Rule
+    o	Type: SSH, Source: Anywhere
+    o	Type: TCP, PORT: 80, Source: Anywhere
+    o	Type: TCP, PORT: 443, Source: Anywhere
+•	Create Security Group
+ 
+Create EC2 Instance where we will be hosting our web application
+•	Go to EC2 Dashboard
+•	Under Instances, Choose Instances
+•	Click Launch Instances
+•	Search for Ubuntu Server 20.04, Choose 64-bit and Select
+    o	Instance Type: t2.micro (1 vCPU,1GB Memory)
+•	Proceed to Configuration Instance Details.
+    o	Keep Everything as default
+•	Proceed to Add Storage
+    o	Size: 8 GB
+    o	Delete on Termination: Checked
+•	Proceed to Add Tags
+    o	Click Add 
+    o	Tag - Key: Name, Value: codex-WebServer
+•	Proceed to Configure Security Group
+    o	Choose Existing Security Group: codex-Securitygroup
+•	Click on Launch
+    o	Choose Existing Key Pair: codex.pem
+•	Launch Instance
+
+SSH Connection to your Instance
+•	Start your EC2 Instance from EC2 dashboard
+•	Right click on the instance and click Connect
+•	Go to the SSH Client
+•	Open the command line interface
+    o	cd to the directory where codex.pem file is located in your terminal.
+•	Copy the command from SSH client and run it in the terminal
+    o	ssh -i "codex.pem" ubuntu@ec2-AA-BB-CCC-DDD.compute-1.amazonaws.com
+
+Installing Nginx on the system
+•	Ssh to the instance
+•	Use these commands to update all the packages
+    o	sudo apt update
+    o	sudo apt upgrade
+•	Run this to install Nginx
+    o	sudo apt install nginx
+•	cd to the sites-available directory in nginx
+    o	cd /etc/nginx/sites-available/
+•	Create a new file 
+    o	sudo nano codex-website
+•	Add these contents in the above file
+    server {
+                 # Listen - What ports (IPv4 and IPv6) should the server listen on?
+       listen 80;
+       listen [::]:80 default_server;
+
+        # Index - What file should be sent if none is specified?
+        index index.html;
+
+        # Root - Where are the website files on disk?
+        root /var/www/codex-website;
+    
+       # Server_Name - What is the DNS name of this site?  
+       # NOTE: This will be fully configured in a FUTURE LAB
+       server_name localhost;
+
+       location / {
+           # First attempt to serve request as file, then
+           # as directory, then fall back to displaying a 404.
+            try_files $uri $uri/ =404;
+       }
+    }
+
+•	Cd to sites-enabled directory
+    o	cd /etc/nginx/sites-enabled/
+•	Create a symbolic link for your website
+    o	sudo ln -s ../sites-available/codex-website
+•	To make sure the link is working run this command
+    o	sudo nginx -t 
+    o	If it runs successful go ahead and restart nginx otherwise create the link again
+•	To restart nginx
+    o	sudo systemctl restart nginx
+•	This would make the website available on the public-IP of the instance and users can access it from their local browser
