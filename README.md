@@ -26,5 +26,8 @@ language together at the same time. The application would use timeline feature a
 2. React
 3. HTML
 
+# Current Progress
+We have a simple basic layout ready in React that would work as the testing variable for the back end (Node.js) system implementation which includes the multi-sharing editing, compiling and producing the output, deploy the system on webserver.
+
 # System Design Report
 https://docs.google.com/document/d/14a2tJF6lWGQK_kyMDUKPCA62PdoxMt6FokH1jgXUyHU/edit
