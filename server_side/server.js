@@ -6,9 +6,7 @@ var cors = require("cors");
 const app = express();
 
 app.use (express.json());
-var writeStream = fs.createWriteStream('./code_to_compile.txt',{
-    flags: 'w'
-});
+var writeStream = fs.createWriteStream('./code_to_compile.txt');
 
 app.listen(5000);
 console.log("Now Listening on port 5000");
@@ -21,8 +19,8 @@ app.get('/backend',(req, res) => {
 });
 
 app.post('/backend', (req, res) => {
-    console.log(req.body);
-    writeStream.write(JSON.stringify(req.body)); 
+    console.log(req.body.code);
+    writeStream.write(req.body.code); 
     var serResponse={
         name: "Code Received"
     }
