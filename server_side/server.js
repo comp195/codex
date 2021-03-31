@@ -6,7 +6,7 @@ var cors = require("cors");
 const app = express();
 
 app.use (express.json());
-var writeStream = fs.createWriteStream('./code_to_compile.txt');
+var writeStream = fs.createWriteStream('./code_to_compile.c');
 
 app.listen(5000);
 console.log("Now Listening on port 5000");
