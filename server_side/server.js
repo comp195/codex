@@ -1,6 +1,6 @@
 const express = require('express');
 var fs = require('fs');
-var exec = require('exec');
+var { exec } = require('child_process');
 
 var cors = require("cors");
 
@@ -32,19 +32,20 @@ app.post('/backend', (req, res) => {
             return;
         }
         console.log(`stdout: ${stdout}`);
-
-        exec("./a.out > 'compiled_code.txt'",(error, stdout, stderr) => {
-            if (error) {
-                console.log(`error: ${error.message}`);
-                return;
-            }
-            if (stderr) {
-                console.log(`stderr: ${stderr}`);
-                return;
-            }
-            console.log(`stdout: ${stdout}`);
-        });
     });
+
+    exec("./a.out > 'compiled_code.txt'",(error, stdout, stderr) => {
+        if (error) {
+            console.log(`error: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.log(`stderr: ${stderr}`);
+            return;
+        }
+        console.log(`stdout: ${stdout}`);
+    });
+   
     const client_code = fs.readFileSync('./compiled_code.txt', 'utf-8');
     var serResponse={
         name: { client_code} 
