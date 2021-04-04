@@ -1,5 +1,3 @@
-
-
 var display = (client_code,res) => {
     var serResponse={
                 name: { client_code} 
