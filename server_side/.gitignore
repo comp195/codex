@@ -1,5 +1,5 @@
 *.txt
-*.c
+code_to_compile.*
 *.out
 *.DS_Store
 
