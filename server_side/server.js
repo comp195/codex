@@ -1,6 +1,7 @@
 const express = require('express');
+var running = require('./execute.js')
 var fs = require('fs');
-var  {exec, execFile}  = require('child_process');
+
 
 var cors = require("cors");
 
@@ -20,35 +21,13 @@ app.get('/backend',(req, res) => {
 
 app.post('/backend', (req, res) => {
     var writeStream = fs.createWriteStream('./code_to_compile.c');
+    var client_code="";
     console.log(req.body.code);
     writeStream.write(req.body.code); 
-    execFile("gcc", ["code_to_compile.c", "-o","code_to_compile"], (error, stdout, stderr) => {
-        if (error) {
-            console.log(`error: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.log(`stderr: ${stderr}`);
-            return;
-        }
-        console.log(`stdout: ${stdout}`);
-        exec("./code_to_compile > compiled_code.txt" ,(error, stdout, stderr) => {
-            if (error) {
-                console.log(`error: ${error.message}`);
-                return;
-            }
-            if (stderr) {
-                console.log(`stderr: ${stderr}`);
-                return;
-            }
-            console.log(`stdout: ${stdout}`);
-            const client_code = fs.readFileSync('./compiled_code.txt', 'utf-8');
-            var serResponse={
-                name: { client_code} 
-            }
-            res.send(JSON.stringify(serResponse));
-        });
-    });
+
+// Call to Function in module execute.js
+    running(client_code,res);
+
     writeStream.end();
 });
 
