@@ -1,22 +1,33 @@
 const express = require('express');
 var running = require('./execute.js')
+const WebSocket = require('ws');
+var http = require('http');
 var fs = require('fs');
 
-
+var app = express();
+var server = http.createServer(app);
 var cors = require("cors");
 
-const app = express();
+
 
 app.use (express.json());
 
-app.listen(5000);
-console.log("Now Listening on port 5000");
+
+
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', (ws) => {
+    console.log('Connected to websocket');
+})
+
+server.listen(5000, () =>{
+    console.log("Now Listening on port 5000");
+});
 
 app.use(cors());
 
 app.get('/backend',(req, res) => {
     console.log("Request was made "+ req.url);
-    
 });
 
 app.post('/backend', (req, res) => {
