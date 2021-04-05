@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Input from './Components/Input'
+import Realtime from './Components/Realtime';
 
 
 
 ReactDOM.render(
-  <Input />,
+  <Realtime />,
   document.getElementById('root')
 );
 

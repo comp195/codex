@@ -2,7 +2,6 @@ import { React, useState } from 'react';
 
 import Header from './Header';
 import Output from './Output';
-import Realtime from './Realtime';
 
 
 function Input() {
@@ -32,7 +31,6 @@ function Input() {
     return (
         <div>
             <Header />
-            <Realtime />
             <form onSubmit= {handleSubmit}>
                 <textarea 
                     id='code' 
