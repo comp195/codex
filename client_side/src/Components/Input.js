@@ -4,27 +4,34 @@ import Header from './Header';
 import Output from './Output';
 
 
-function Input() {
+function Input(props) {
     const [code,setCode] = useState('code-area');
     const [output,setOutput] = useState('Output will be shown here');
     
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(code);
         const req_body = { code }
-        fetch('http://localhost:5000/backend', {
-            method: 'POST',
-            headers: { "Content-Type": "application/json"},
-            body: JSON.stringify(req_body)
-        })
-        .then(res => {
-            console.log(res);
-            return res.json();
-        })
-        .then(data => {
-            setOutput(data.name);
-        })
+        console.log(e);
+
+        props.connection.send(JSON.stringify({
+            type: "message",
+            msg: req_body
+        }));
+
+        console.log(code);
+        // fetch('http://localhost:5000/backend', {
+        //     method: 'POST',
+        //     headers: { "Content-Type": "application/json"},
+        //     body: JSON.stringify(req_body)
+        // })
+        // .then(res => {
+        //     console.log(res);
+        //     return res.json();
+        // })
+        // .then(data => {
+        //     setOutput(data.name);
+        // })
     }
 
 
