@@ -21,8 +21,8 @@ wss.on('connection', (ws) => {
     ws.on('message', (message) => {
         var client_code="";
         var message = JSON.parse(message);
-        console.log(message.msg.code);
-        fs.writeFileSync('./code_to_compile.c',message.msg.code);
+        console.log(message.msg);
+        fs.writeFileSync('./code_to_compile.c',message.msg);
 
     // Call to Function in module execute.js
         running(client_code,ws);
