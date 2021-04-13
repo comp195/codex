@@ -1,32 +1,58 @@
+//Pre-built Modules
 const express = require('express');
-var running = require('./execute.js')
 const WebSocket = require('ws');
 var http = require('http');
 var fs = require('fs');
+
+//Custom created modules
+var running = require('./execute.js')
+const  {execFile,spawn}  = require('child_process');
+var display = require('./display')
+
+
 
 var app = express();
 var server = http.createServer(app);
 var cors = require("cors");
 
-
-
 app.use (express.json());
-
-
 
 const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
+    let child;
     console.log('Connected to websocket');
     ws.on('message', (message) => {
         var client_code="";
         var message = JSON.parse(message);
         console.log(message.msg);
-        fs.writeFileSync('./code_to_compile.c',message.msg);
+        if(message.newCode == true){
+            console.log(message.newCode);
+            fs.writeFileSync('./code_to_compile.c',message.msg);
 
-    // Call to Function in module execute.js
-        running(client_code,ws);
+            execFile("gcc", ["code_to_compile.c", "-o","code_to_compile"], (error, stdout, stderr) => {
+                if (error) {
+                    console.log(`error: ${error}`);
+                    display(error.message,res);
+                    return;
+                }
+                if (stderr) {
+                    console.log(`stderr: ${stderr}`);
+                    display(stderr.message,res);
+                    return;
+                }
+                child = spawn("stdbuf",['-o0','./code_to_compile']);
 
+                // Call to Function in module execute.js
+                running(child,ws);
+            })
+        }
+        else{
+            if(message.newCode === false){
+                    console.log("Answer to stdin received");
+                    child.stdin.write(message.msg);
+                }
+        }
     })
 })
 
@@ -39,16 +65,3 @@ app.use(cors());
 app.get('/backend',(req, res) => {
     console.log("Request was made "+ req.url);
 });
-
-// app.post('/backend', (req, res) => {
-//     var writeStream = fs.createWriteStream('./code_to_compile.c');
-//     var client_code="";
-//     console.log(req.body.code);
-//     writeStream.write(req.body.code); 
-
-// // Call to Function in module execute.js
-//     running(client_code,res);
-
-//     writeStream.end();
-// });
-

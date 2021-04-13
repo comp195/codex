@@ -6,7 +6,7 @@ function Output(props) {
         <div>
             <textarea 
                 id='output' 
-                defaultValue= {props.serverResponse}
+                value= {props.serverResponse}
                 rows='10' 
                 cols='100'
             />
