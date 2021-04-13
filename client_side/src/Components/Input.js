@@ -29,7 +29,6 @@ class Input extends Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(e);
         this.setState({output: ''});
         this.props.connection.send(JSON.stringify({
             type: "message",
@@ -41,7 +40,9 @@ class Input extends Component{
 
     handleKeyDown = (e) => {
         if(e.key === 'Enter'){
-            console.log("Enter Pressed");
+            e.preventDefault();
+            var temp = this.state.output + this.state.answer + '\n';
+            this.setState({output: temp});
             this.props.connection.send(JSON.stringify({
                 type: "message",
                 msg: this.state.answer + '\n',
@@ -60,7 +61,6 @@ class Input extends Component{
     // }
 
     takeAnswer = (e) => {
-        e.preventDefault();
         this.setState({answer: e.target.value});
     }
 
@@ -94,7 +94,7 @@ class Input extends Component{
             <textarea 
                 id='answer' 
                 value= {this.state.answer}
-                rows='3' 
+                rows='2' 
                 cols='50'
                 onChange={this.takeAnswer}
                 onKeyDown={this.handleKeyDown}
