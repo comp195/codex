@@ -98,6 +98,7 @@ class Input extends Component{
                 value= {this.state.answer}
                 rows='2' 
                 cols='50'
+                placeholder="Type Input Here. Press 'Enter' to submit input"
                 onChange={this.takeAnswer}
                 onKeyDown={this.handleKeyDown}
             /> }
