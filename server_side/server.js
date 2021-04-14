@@ -33,12 +33,12 @@ wss.on('connection', (ws) => {
             execFile("gcc", ["code_to_compile.c", "-o","code_to_compile"], (error, stdout, stderr) => {
                 if (error) {
                     console.log(`error: ${error}`);
-                    display(error.message,res);
+                    display(error.message,ws,false);
                     return;
                 }
                 if (stderr) {
                     console.log(`stderr: ${stderr}`);
-                    display(stderr.message,res);
+                    display(stderr.message,ws,false);
                     return;
                 }
                 child = spawn("stdbuf",['-o0','./code_to_compile']);

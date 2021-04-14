@@ -8,7 +8,7 @@ import Output from './Output';
 class Input extends Component{
     constructor(props){
         super(props);
-        this.state = {code: 'code-area', output: '', needOuput: false, answer: ''};
+        this.state = {code: 'code-area', output: '', needOutput: false, answer: ''};
         this.handleSubmit = this.handleSubmit.bind(this);
         // this.handleOutput = this.handleOutput.bind(this);
         this.takeAnswer = this.takeAnswer.bind(this);
@@ -22,7 +22,9 @@ class Input extends Component{
                 var data = JSON.parse(message.data);
                 console.log(data.name.client_code);
                 var temp = this.state.output + data.name.client_code;
-                this.setState({output: temp});
+                this.setState({output: temp, needOutput: data.needOutput.needOutput});
+                console.log(data.needOutput.needOutput)
+                
             }
         }
     }
@@ -91,14 +93,14 @@ class Input extends Component{
                 readOnly
             /> 
             <p>{"\n"}</p>
-            <textarea 
+            {this.state.needOutput && <textarea 
                 id='answer' 
                 value= {this.state.answer}
                 rows='2' 
                 cols='50'
                 onChange={this.takeAnswer}
                 onKeyDown={this.handleKeyDown}
-            /> 
+            /> }
         </div>
         )
     }
