@@ -1,9 +1,17 @@
-var display = (client_code,res,needOutput) => {
+const WebSocket = require('ws');
+
+var display = (client_code,wss,needOutput) => {
     var serResponse={
+                type: "serverResponse",
                 name: { client_code},
                 needOutput: { needOutput }
             }
-    res.send(JSON.stringify(serResponse));
+    msg=JSON.stringify(serResponse);
+    wss.clients.forEach(function each(client){
+        if (client.readyState == WebSocket.OPEN){
+            client.send(msg);
+        }
+    });
 }
 
 module.exports = display;

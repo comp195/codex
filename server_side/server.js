@@ -21,40 +21,55 @@ const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
     let child;
-    console.log('Connected to websocket');
+    console.log('Client connected ...');
     ws.on('message', (message) => {
         var client_code="";
         var message = JSON.parse(message);
         console.log(message.msg);
-        if(message.newCode == true){
+        if(message.type == 'broadcast'){
+            wss.broadcast(message,ws);
+        }
+        else if(message.type == 'message'){
             console.log(message.newCode);
+            var clearOut = {
+                type: 'clear'
+            };
+            wss.broadcast(clearOut,ws);
+
             fs.writeFileSync('./code_to_compile.c',message.msg);
 
             execFile("gcc", ["code_to_compile.c", "-o","code_to_compile"], (error, stdout, stderr) => {
                 if (error) {
                     console.log(`error: ${error}`);
-                    display(error.message,ws,false);
+                    display(error.message,wss,false);
                     return;
                 }
                 if (stderr) {
                     console.log(`stderr: ${stderr}`);
-                    display(stderr.message,ws,false);
+                    display(stderr.message,wss,false);
                     return;
                 }
                 child = spawn("stdbuf",['-o0','./code_to_compile']);
 
                 // Call to Function in module execute.js
-                running(child,ws);
+                running(child,wss);
             })
         }
-        else{
-            if(message.newCode === false){
-                    console.log("Answer to stdin received");
-                    child.stdin.write(message.msg);
-                }
+        else if( message.type == 'answer'){
+            console.log("Answer to stdin received");
+            child.stdin.write(message.msg);
         }
     })
 })
+
+wss.broadcast = (msg,ws) => {
+    msg=JSON.stringify(msg);
+    wss.clients.forEach(function each(client){
+        if (client != ws && client.readyState == WebSocket.OPEN){
+            client.send(msg);
+        }
+    });
+};
 
 server.listen(5000, () =>{
     console.log("Now Listening on port 5000");

@@ -1,15 +1,15 @@
 const fs = require('fs');
 var display = require('./display');
 
-var running = (child,res) => {
+var running = (child,wss) => {
     child.stdout.on('data',(data) => {
         client_code = data.toString();
-        display(client_code,res, true);
+        display(client_code,wss, true);
         console.log(`stdout: ${client_code}`);
     } )
     child.on('close',() => {
         console.log("Closing Code");
-        display("", res, false)
+        display("", wss, false)
     })
 }
 

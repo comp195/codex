@@ -14,17 +14,25 @@ class Input extends Component{
         this.takeAnswer = this.takeAnswer.bind(this);
         // this.handleClick = this.handleSubmit.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
     componentDidMount(){
         this.props.connection.onopen = () => {
             console.log('Connected to socket at 5000');
             this.props.connection.onmessage = (message) => {
                 var data = JSON.parse(message.data);
-                console.log(data.name.client_code);
-                var temp = this.state.output + data.name.client_code;
-                this.setState({output: temp, needOutput: data.needOutput.needOutput});
-                console.log(data.needOutput.needOutput)
-                
+                if(data.type === 'broadcast'){
+                    this.setState({code: data.msg});
+                }
+                else if (data.type === 'serverResponse'){
+                    console.log(data.name.client_code);
+                    var temp = this.state.output + data.name.client_code;
+                    this.setState({output: temp, needOutput: data.needOutput.needOutput});
+                    console.log(data.needOutput.needOutput)
+                }
+                else if (data.type === 'clear'){
+                    this.setState({output:''});
+                }
             }
         }
     }
@@ -40,13 +48,23 @@ class Input extends Component{
     
     }
 
+    handleChange = (e) => {
+        this.setState({code: e.target.value},() =>{
+            this.props.connection.send(JSON.stringify({
+                type: "broadcast",
+                msg: this.state.code
+            }));
+        });
+
+    }
+
     handleKeyDown = (e) => {
         if(e.key === 'Enter'){
             e.preventDefault();
             var temp = this.state.output + this.state.answer + '\n';
             this.setState({output: temp});
             this.props.connection.send(JSON.stringify({
-                type: "message",
+                type: "answer",
                 msg: this.state.answer + '\n',
                 newCode: false
             }))
@@ -78,7 +96,7 @@ class Input extends Component{
                     value = {this.state.code} 
                     rows='25' 
                     cols='100'
-                    onChange = {(e) => this.setState({code : e.target.value})}
+                    onChange = {this.handleChange}
                 />
                 <p>{"\n"}</p>
                 <button> Run </button>
