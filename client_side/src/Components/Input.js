@@ -33,6 +33,9 @@ class Input extends Component{
                 else if (data.type === 'clear'){
                     this.setState({output:''});
                 }
+                else if (data.type === 'answerBroadcast'){
+                    this.setState({answer: data.msg})
+                }
             }
         }
     }
@@ -81,8 +84,14 @@ class Input extends Component{
     // }
 
     takeAnswer = (e) => {
-        this.setState({answer: e.target.value});
+        this.setState({answer: e.target.value}, () =>{
+            this.props.connection.send(JSON.stringify({
+                type: "answerBroadcast",
+                msg: this.state.answer
+            }));
+        });
     }
+    
 
     render(){
         return(

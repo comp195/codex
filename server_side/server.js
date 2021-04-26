@@ -17,16 +17,20 @@ var cors = require("cors");
 
 app.use (express.json());
 
+let child;
+
 const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
-    let child;
     console.log('Client connected ...');
     ws.on('message', (message) => {
         var client_code="";
         var message = JSON.parse(message);
         console.log(message.msg);
         if(message.type == 'broadcast'){
+            wss.broadcast(message,ws);
+        }
+        else if(message.type == 'answerBroadcast'){
             wss.broadcast(message,ws);
         }
         else if(message.type == 'message'){
@@ -77,6 +81,3 @@ server.listen(5000, () =>{
 
 app.use(cors());
 
-app.get('/backend',(req, res) => {
-    console.log("Request was made "+ req.url);
-});
