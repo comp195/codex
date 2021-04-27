@@ -1,7 +1,6 @@
 import { Component, React } from 'react';
 
 import Header from './Header';
-import Output from './Output';
 
 // var temp="";
 
@@ -25,16 +24,19 @@ class Input extends Component{
                     this.setState({code: data.msg});
                 }
                 else if (data.type === 'serverResponse'){
-                    console.log(data.name.client_code);
                     var temp = this.state.output + data.name.client_code;
                     this.setState({output: temp, needOutput: data.needOutput.needOutput});
-                    console.log(data.needOutput.needOutput)
                 }
                 else if (data.type === 'clear'){
                     this.setState({output:''});
                 }
                 else if (data.type === 'answerBroadcast'){
                     this.setState({answer: data.msg})
+                }
+                else if (data.type === 'answer'){
+                    var newout = this.state.output + data.msg;
+                    // console.log(newout);
+                    this.setState({output: newout, answer: ''});
                 }
             }
         }
@@ -65,7 +67,9 @@ class Input extends Component{
         if(e.key === 'Enter'){
             e.preventDefault();
             var temp = this.state.output + this.state.answer + '\n';
+            console.log(this.state.output);
             this.setState({output: temp});
+            console.log(this.state.answer);
             this.props.connection.send(JSON.stringify({
                 type: "answer",
                 msg: this.state.answer + '\n',

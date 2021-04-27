@@ -61,6 +61,7 @@ wss.on('connection', (ws) => {
         }
         else if( message.type == 'answer'){
             console.log("Answer to stdin received");
+            wss.broadcast(message, ws);
             child.stdin.write(message.msg);
         }
     })
