@@ -1,5 +1,5 @@
 import { Component, React } from 'react';
-
+import "./style.css";
 import Header from './Header';
 
 // var temp="";
@@ -7,7 +7,7 @@ import Header from './Header';
 class Input extends Component{
     constructor(props){
         super(props);
-        this.state = {code: 'code-area', output: '', needOutput: false, answer: ''};
+        this.state = {code: '#include <stdio.h>\nint main(){\n\nreturn 0;\n}', output: '', needOutput: false, answer: ''};
         this.handleSubmit = this.handleSubmit.bind(this);
         // this.handleOutput = this.handleOutput.bind(this);
         this.takeAnswer = this.takeAnswer.bind(this);
@@ -99,11 +99,13 @@ class Input extends Component{
 
     render(){
         return(
-             <div>
+            
+             <div className="container">
             <Header />
 
-            <form onSubmit= {this.handleSubmit}>
-                <textarea 
+            <form className="input" onSubmit= {this.handleSubmit}>
+                <textarea
+                    className="codeHere"
                     id='code' 
                     required
                     value = {this.state.code} 
@@ -112,30 +114,45 @@ class Input extends Component{
                     onChange = {this.handleChange}
                 />
                 <p>{"\n"}</p>
-                <button> Run </button>
+                <button className="brun"> Run </button>
 
-            </form>
-            <textarea 
+                <textarea
+                className="codeOut"
                 id='output' 
                 value= {this.state.output}
                 placeholder="Output will be shown here"
-                rows='10' 
+                rows='25' 
                 cols='100'
                 readOnly
             /> 
+            </form>
+            {/* <div className="outArea">
+            <textarea
+                className="codeOut"
+                id='output' 
+                value= {this.state.output}
+                placeholder="Output will be shown here"
+                rows='25' 
+                cols='100'
+                readOnly
+            /> 
+            </div> */}
             <p>{"\n"}</p>
             {this.state.needOutput && <textarea 
                 id='answer' 
                 value= {this.state.answer}
-                rows='2' 
-                cols='50'
+                rows='25' 
+                cols='100'
                 placeholder="Type Input Here. Press 'Enter' to submit input"
                 onChange={this.takeAnswer}
                 onKeyDown={this.handleKeyDown}
             /> }
         </div>
+            
         )
+            
     }
+
 }
 
 
