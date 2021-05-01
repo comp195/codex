@@ -18,15 +18,27 @@ var cors = require("cors");
 app.use (express.json());
 
 let child;
+let total_users=0;
+let client_code="";
 
 const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
-    console.log('Client connected ...');
+    total_users+=1;
+    console.log('Client ' + total_users+' connected ...');
+    if(client_code!=""){
+        console.log("Here");
+        var existing = {
+            type: 'newUsers',
+            msg: client_code
+        };
+        ws.send(JSON.stringify(existing));
+    }
     ws.on('message', (message) => {
-        var client_code="";
         var message = JSON.parse(message);
-        console.log(message.msg);
+        client_code=message.msg;
+        
+        // console.log(client_code);
         if(message.type == 'broadcast'){
             wss.broadcast(message,ws);
         }
@@ -34,7 +46,7 @@ wss.on('connection', (ws) => {
             wss.broadcast(message,ws);
         }
         else if(message.type == 'message'){
-            console.log(message.newCode);
+            // console.log(message.newCode);
             var clearOut = {
                 type: 'clear'
             };
@@ -65,7 +77,15 @@ wss.on('connection', (ws) => {
             child.stdin.write(message.msg);
         }
     })
+    ws.on('close',()=>{
+        total_users-=1;
+        console.log('Users left: '+ total_users);
+        if(total_users === 0){
+            client_code="";
+        }
+    })
 })
+
 
 wss.broadcast = (msg,ws) => {
     msg=JSON.stringify(msg);

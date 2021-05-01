@@ -23,6 +23,10 @@ class Input extends Component{
                 if(data.type === 'broadcast'){
                     this.setState({code: data.msg});
                 }
+                else if (data.type === 'newUsers'){
+                    console.log('Here');
+                    this.setState({code: data.msg});
+                }
                 else if (data.type === 'serverResponse'){
                     var temp = this.state.output + data.name.client_code;
                     this.setState({output: temp, needOutput: data.needOutput.needOutput});
