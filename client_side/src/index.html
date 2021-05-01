@@ -3,7 +3,28 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <div id="root"></div>
+        <div className id="root"></div>
         <script src="index.pack.js"></script>
+        <script type="text/javascript">
+            let progress = document.getElementById('progressbar');
+            let totalHeight = document.body.scrollHeight + window.innerHeight;
+            // window.onscroll = fucntion(){
+            //     let progressHeight = (window.pageYOffset / totalHeight) * 100;
+            //     progress.style.height = progressHeight + "%";
+            // }
+            const button = document.querySelectorAll('brun');
+            button.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+
+                    let x = e.clickX + e.target.offsetLeft;
+                    let y = e.clickY + e.target.offsetTop;
+
+                    let ripples = document.createElement('span');
+                    ripples.style.left=x + 'px';
+                    ripples.style.top=y + 'px';
+                    this.appendChild(ripples);
+                })
+            })
+        </script>
     </body>
 </html>

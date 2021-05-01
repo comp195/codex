@@ -100,7 +100,9 @@ class Input extends Component{
     render(){
         return(
             
-             <div className="container">
+            <div className="container">
+                <div id="progressbar"></div>
+                <div id="scrollPath"></div>
             <Header />
 
             <form className="input" onSubmit= {this.handleSubmit}>
@@ -138,6 +140,20 @@ class Input extends Component{
             /> 
             </div> */}
             <p>{"\n"}</p>
+            <div className="Alltext">
+            <h1 className="text">We are CodeX team:</h1><p>{"\n"}</p>
+            <text className="text">Bekzhan Abdimanapov - b_abdimanapov@u.pacific.edu<p>{"\n"}</p>Dhananjay Gurung - d_gurung@u.pacific.edu<p>{"\n"}</p>Rehan Kedia - r_kedia@u.pacific.edu<p>{"\n"}</p></text>
+            <text className="text">----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</text><p>{"\n"}</p>
+            <h3 className="text">We are computer science students and our goal is to ease up programming education for other computer science students.</h3><p>{"\n"}</p>
+            <h3 className="text">Our software is a multi-user programming compiler</h3><p>{"\n"}</p>
+            <h3 className="text">The main feature our software has is the ability for multiple users to edit the same code file at the same time</h3><p>{"\n"}</p>
+            <text className="text">----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</text><p>{"\n"}</p>
+            <h1 className="text">Our mission statement is:</h1><p>{"\n"}</p>
+            
+            <text className="text">We belive that programming is easy with a good professor and easy to set up development. </text><p>{"\n"}</p>
+            <text className="text">Making programming easier for students makes up belive that one day anyone would be able to learn programming.</text><p>{"\n"}</p>
+            <div className="text">{"Copyright 2021 CodeX USA, Inc. All rights reserved. \n"}</div>
+            </div>
             {this.state.needOutput && <textarea 
                 id='answer' 
                 value= {this.state.answer}
@@ -147,8 +163,9 @@ class Input extends Component{
                 onChange={this.takeAnswer}
                 onKeyDown={this.handleKeyDown}
             /> }
-        </div>
             
+        </div>
+         
         )
             
     }
