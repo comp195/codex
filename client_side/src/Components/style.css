@@ -21,6 +21,11 @@
   /* background-color: grey; */
 }
 
+.container .output {
+  display: flex;
+  justify-content: center;
+}
+
 .container .input {
   display: flex;
   justify-content: left;

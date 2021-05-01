@@ -139,6 +139,16 @@ class Input extends Component{
                 readOnly
             /> 
             </div> */}
+            {this.state.needOutput && <textarea 
+                className = "output" 
+                id='answer' 
+                value= {this.state.answer}
+                rows='25' 
+                cols='100'
+                placeholder="Type Input Here. Press 'Enter' to submit input"
+                onChange={this.takeAnswer}
+                onKeyDown={this.handleKeyDown}
+            /> }
             <p>{"\n"}</p>
             <div className="Alltext">
             <h1 className="text">We are CodeX team:</h1><p>{"\n"}</p>
@@ -154,15 +164,7 @@ class Input extends Component{
             <text className="text">Making programming easier for students makes up belive that one day anyone would be able to learn programming.</text><p>{"\n"}</p>
             <div className="text">{"Copyright 2021 CodeX USA, Inc. All rights reserved. \n"}</div>
             </div>
-            {this.state.needOutput && <textarea 
-                id='answer' 
-                value= {this.state.answer}
-                rows='25' 
-                cols='100'
-                placeholder="Type Input Here. Press 'Enter' to submit input"
-                onChange={this.takeAnswer}
-                onKeyDown={this.handleKeyDown}
-            /> }
+            
             
         </div>
          
