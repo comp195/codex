@@ -1,7 +1,7 @@
 import { React, Component } from "react";
 import Input from "./Input";
 
-var connection = new WebSocket('ws://localhost:5000');
+var connection = new WebSocket('ws://34.222.29.88:5000');
 
 
 class Realtime extends Component{

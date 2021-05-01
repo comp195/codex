@@ -115,8 +115,6 @@ class Input extends Component{
                     id='code' 
                     required
                     value = {this.state.code} 
-                    rows='25' 
-                    cols='100'
                     onChange = {this.handleChange}
                 />
                 <p>{"\n"}</p>
@@ -127,8 +125,6 @@ class Input extends Component{
                 id='output' 
                 value= {this.state.output}
                 placeholder="Output will be shown here"
-                rows='25' 
-                cols='100'
                 readOnly
             /> 
             </form>
