@@ -143,7 +143,7 @@ class Input extends Component{
                 className = "output" 
                 id='answer' 
                 value= {this.state.answer}
-                rows='25' 
+                rows='10' 
                 cols='100'
                 placeholder="Type Input Here. Press 'Enter' to submit input"
                 onChange={this.takeAnswer}
